@@ -14,19 +14,40 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * The Class StartActivity.
+ */
 public class StartActivity extends Activity {
+
+	/** The m message. */
 	private EditText mTo, mMessage;
+
+	/** The m send. */
 	private Button mSend;
+
+	/** The ctx. */
 	private Context ctx = this;
+
+	/** The m broadcast receiver. */
 	private BroadcastReceiver mBroadcastReceiver;
 
-	/** Allows the orientation to change without disrupting the activity */
+	/**
+	 * Allows the orientation to change without disrupting the activity.
+	 * 
+	 * @param newConfig
+	 *            the new config
+	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 	}
 
-	/** Called when the activity is first created. */
+	/**
+	 * Called when the activity is first created.
+	 * 
+	 * @param savedInstanceState
+	 *            the saved instance state
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,8 +60,8 @@ public class StartActivity extends Activity {
 				if (String.valueOf(mTo.getText()).length() > 0
 						&& String.valueOf(mMessage.getText()).length() > 0) {
 					try {
-						sendSMS(String.valueOf(mTo.getText()), String
-								.valueOf(mMessage.getText()));
+						sendSMS(String.valueOf(mTo.getText()),
+								String.valueOf(mMessage.getText()));
 					} catch (Exception e) {
 						Toast.makeText(ctx, "Error sending message...",
 								Toast.LENGTH_SHORT).show();
@@ -54,6 +75,14 @@ public class StartActivity extends Activity {
 		});
 	}
 
+	/**
+	 * Send sms.
+	 * 
+	 * @param pn
+	 *            the phone number
+	 * @param m
+	 *            the message
+	 */
 	private void sendSMS(String pn, String m) {
 		final String phoneNumber = pn;
 		final String message = m;
@@ -92,9 +121,16 @@ public class StartActivity extends Activity {
 		SmsManager sms = SmsManager.getDefault();
 		Toast.makeText(ctx, "Sending sms message...", Toast.LENGTH_SHORT)
 				.show();
+		/**
+		 * sendTextMessage (String destinationAddress, String scAddress, String
+		 * text, PendingIntent sentIntent, PendingIntent deliveryIntent)
+		 **/
 		sms.sendTextMessage(phoneNumber, "", message, sentPI, null);
 	}
 
+	/**
+	 * Called when the activity is destroyed
+	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
